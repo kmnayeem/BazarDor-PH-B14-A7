@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -149,7 +148,10 @@ export default function Navbar() {
                                         </Dropdown.Item>
 
                                         <Dropdown.Item id="sign-out">
-                                            <Button onClick={handleSignOut}>
+                                            <Button
+                                                onClick={handleSignOut}
+                                                className="w-full h-9 px-4 bg-[#078b40] hover:bg-[#067735] text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+                                            >
                                                 সাইন আউট
                                             </Button>
                                         </Dropdown.Item>
@@ -197,7 +199,6 @@ export default function Navbar() {
                             <Link
                                 key={cat.id}
                                 href={`/category/${cat.slug}`}
-                                title={cat.descriptionBn}
                                 className={`flex items-center gap-1.5 text-xs sm:text-sm whitespace-nowrap py-1 transition-colors ${
                                     isActive
                                         ? "text-[#008b45] font-bold"
