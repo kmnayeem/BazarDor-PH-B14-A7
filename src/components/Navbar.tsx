@@ -54,46 +54,43 @@ export default function Navbar() {
     };
 
     return (
-        <header className="w-full bg-[#f8faf9] sticky top-0 z-50 border-b border-slate-100">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6">
-
+        <header className="sticky top-0 z-50 w-full border-b border-emerald-100/80 bg-white/95 shadow-sm shadow-slate-900/[0.03] backdrop-blur-md">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Top Navbar */}
-                <div className="flex items-center justify-between min-h-[60px]">
-
+                <div className="flex min-h-[72px] items-center justify-between gap-4">
                     {/* Logo & Date */}
-                    <Link href="/" className="flex items-center gap-2">
-
-                        {/* Custom Logo Image */}
-                        <div className="w-[40px] h-[40px] rounded-xl bg-[#DCEFE2] border border-[#C8E3D1] flex items-center justify-center overflow-hidden shadow-sm">
+                    <Link
+                        href="/"
+                        className="group flex min-w-0 items-center gap-3"
+                    >
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-emerald-100 bg-emerald-50 shadow-sm transition-transform duration-200 group-hover:scale-105">
                             <Image
                                 src={logo}
                                 alt="Bazar Dor Logo"
                                 width={40}
                                 height={40}
                                 priority
-                                className="w-full h-full object-contain p-1"
+                                className="h-full w-full object-contain p-1"
                             />
                         </div>
 
-                        {/* Brand */}
-                        <div className="flex flex-col">
-                            <span className="text-[17px] sm:text-[19px] font-extrabold text-[#17251d] leading-tight tracking-tight">
+                        <div className="flex min-w-0 flex-col">
+                            <span className="text-lg font-extrabold leading-tight tracking-tight text-slate-900 sm:text-xl">
                                 বাজার দর
                             </span>
-
-                            <span className="text-[10px] sm:text-[11px] text-slate-600 font-medium">
+                            <span className="mt-0.5 truncate text-[10px] font-medium text-slate-500 sm:text-xs">
                                 {formattedDate}
                             </span>
                         </div>
                     </Link>
 
                     {/* Right Side: Authentication */}
-                    <div className="flex items-center gap-2">
-
+                    <div className="flex shrink-0 items-center gap-2">
                         {isPending ? (
                             <ProgressCircle
                                 aria-label="Loading"
                                 value={60}
+                                className="text-emerald-600"
                             >
                                 <ProgressCircle.Track>
                                     <ProgressCircle.TrackCircle />
@@ -104,10 +101,9 @@ export default function Navbar() {
                             <Dropdown>
                                 <Button
                                     variant="ghost"
-                                    className="flex items-center gap-2 px-1.5 h-10 rounded-lg hover:bg-slate-100"
+                                    className="flex h-10 items-center gap-2 rounded-xl border border-transparent px-2 transition-colors hover:border-slate-200 hover:bg-slate-50"
                                 >
-                                    {/* User Profile Avatar */}
-                                    <Avatar className="w-8 h-8">
+                                    <Avatar className="h-8 w-8 ring-2 ring-emerald-100">
                                         {data.user.image && (
                                             <Avatar.Image
                                                 alt={data.user.name}
@@ -115,16 +111,16 @@ export default function Navbar() {
                                             />
                                         )}
 
-                                        <Avatar.Fallback>
+                                        <Avatar.Fallback className="bg-emerald-100 font-semibold text-emerald-800">
                                             {data.user.name.charAt(0).toUpperCase()}
                                         </Avatar.Fallback>
                                     </Avatar>
 
-                                    <span className="hidden sm:block text-xs font-semibold text-[#17251d]">
+                                    <span className="hidden max-w-32 truncate text-xs font-semibold text-slate-700 sm:block">
                                         {data.user.name}
                                     </span>
 
-                                    <span className="text-[10px] text-slate-500">
+                                    <span className="text-[10px] text-slate-400">
                                         ▼
                                     </span>
                                 </Button>
@@ -136,13 +132,19 @@ export default function Navbar() {
                                         }
                                     >
                                         <Dropdown.Item id="profile">
-                                            <Link href="/profile">
+                                            <Link
+                                                href="/profile"
+                                                className="block w-full"
+                                            >
                                                 প্রোফাইল
                                             </Link>
                                         </Dropdown.Item>
 
                                         <Dropdown.Item id="update-profile">
-                                            <Link href="/profile/update-profile">
+                                            <Link
+                                                href="/profile/update-profile"
+                                                className="block w-full"
+                                            >
                                                 আপডেট প্রোফাইল
                                             </Link>
                                         </Dropdown.Item>
@@ -150,7 +152,7 @@ export default function Navbar() {
                                         <Dropdown.Item id="sign-out">
                                             <Button
                                                 onClick={handleSignOut}
-                                                className="w-full h-9 px-4 bg-[#078b40] hover:bg-[#067735] text-white text-xs font-semibold rounded-lg shadow-sm hover:shadow-md transition-all duration-200"
+                                                className="h-9 w-full rounded-lg bg-emerald-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
                                             >
                                                 সাইন আউট
                                             </Button>
@@ -159,36 +161,31 @@ export default function Navbar() {
                                 </Dropdown.Popover>
                             </Dropdown>
                         ) : (
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1.5 sm:gap-2">
                                 <Button
                                     variant="ghost"
-                                    className="h-9 px-3 text-xs font-semibold text-slate-700"
+                                    className="h-9 rounded-xl px-3 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100"
                                 >
-                                    <Link href="/signin">
-                                        সাইন ইন
-                                    </Link>
+                                    <Link href="/signin">সাইন ইন</Link>
                                 </Button>
 
                                 <Button
                                     variant="primary"
-                                    className="h-9 px-4 rounded-lg bg-[#008b45] text-white text-xs font-semibold"
+                                    className="h-9 rounded-xl bg-emerald-600 px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:px-4"
                                 >
-                                    <Link href="/signup">
-                                        সাইন আপ
-                                    </Link>
+                                    <Link href="/signup">সাইন আপ</Link>
                                 </Button>
                             </div>
                         )}
                     </div>
                 </div>
 
-                {/* Divider */}
                 <Separator className="bg-slate-100" />
 
                 {/* Category Navigation */}
                 <nav
                     aria-label="Category Navigation"
-                    className="flex items-center gap-5 sm:gap-8 py-2.5 overflow-x-auto no-scrollbar"
+                    className="no-scrollbar flex items-center gap-2 overflow-x-auto py-2.5 sm:gap-3"
                 >
                     {categories.map((cat) => {
                         const isActive =
@@ -199,16 +196,15 @@ export default function Navbar() {
                             <Link
                                 key={cat.id}
                                 href={`/category/${cat.slug}`}
-                                className={`flex items-center gap-1.5 text-xs sm:text-sm whitespace-nowrap py-1 transition-colors ${
+                                className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs whitespace-nowrap transition-all duration-200 sm:text-sm ${
                                     isActive
-                                        ? "text-[#008b45] font-bold"
-                                        : "text-slate-700 hover:text-[#008b45] font-medium"
+                                        ? "bg-emerald-600 font-semibold text-white shadow-sm shadow-emerald-600/20"
+                                        : "font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
                                 }`}
                             >
                                 <span className="text-base leading-none">
                                     {cat.icon}
                                 </span>
-
                                 <span>{cat.nameBn}</span>
                             </Link>
                         );
