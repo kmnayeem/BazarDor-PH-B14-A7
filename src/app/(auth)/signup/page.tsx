@@ -242,7 +242,7 @@ export default function SignUpPage() {
                     {/* Google Signup Button */}
                     <Button
                         type="button"
-                        onPress={handleGoogleSignIn}
+                        onClick={handleGoogleSignIn}
                         variant="outline"
                         className="w-full h-[36px] px-2 flex items-center justify-center gap-2 rounded-lg border border-[#e0e8e0] bg-transparent hover:bg-[#f1f6f1] text-[#29332c] text-xs font-semibold shadow-none"
                     >
