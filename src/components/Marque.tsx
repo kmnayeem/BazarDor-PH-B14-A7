@@ -1,594 +1,115 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import type { IProduct } from "@/types/type";
 
-const LIVE_PRODUCTS: IProduct[] = [
-    {
-        id: 1,
-        slug: "sorno-machi-chal",
-        nameBn: "স্বর্ণমাছি চাল",
-        category: "chal",
-        categoryNameBn: "চাল",
-        categoryIcon: "🍚",
-        unit: "kg",
-        image: "🍚",
-        today: 148,
-        yesterday: 145,
-        lastWeek: 142,
-        lastMonth: 138,
-        change: { dir: "up", pct: 2.1 },
-        markets: [],
-    },
-    {
-        id: 2,
-        slug: "miniket-chal",
-        nameBn: "মিনিকেট চাল",
-        category: "chal",
-        categoryNameBn: "চাল",
-        categoryIcon: "🍚",
-        unit: "kg",
-        image: "🍚",
-        today: 99,
-        yesterday: 102,
-        lastWeek: 105,
-        lastMonth: 100,
-        change: { dir: "down", pct: -2.9 },
-        markets: [],
-    },
-    {
-        id: 3,
-        slug: "nazir-chal",
-        nameBn: "নাজির চাল",
-        category: "chal",
-        categoryNameBn: "চাল",
-        categoryIcon: "🍚",
-        unit: "kg",
-        image: "🍚",
-        today: 74,
-        yesterday: 74,
-        lastWeek: 72,
-        lastMonth: 70,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-    {
-        id: 4,
-        slug: "batam-size-chal",
-        nameBn: "বাটাম সাইজ চাল",
-        category: "chal",
-        categoryNameBn: "চাল",
-        categoryIcon: "🍚",
-        unit: "kg",
-        image: "🍚",
-        today: 66,
-        yesterday: 64,
-        lastWeek: 63,
-        lastMonth: 61,
-        change: { dir: "up", pct: 3.1 },
-        markets: [],
-    },
-    {
-        id: 5,
-        slug: "mosur-dal",
-        nameBn: "মসুর ডাল",
-        category: "dal",
-        categoryNameBn: "ডাল",
-        categoryIcon: "🫘",
-        unit: "kg",
-        image: "🫘",
-        today: 142,
-        yesterday: 138,
-        lastWeek: 135,
-        lastMonth: 132,
-        change: { dir: "up", pct: 2.9 },
-        markets: [],
-    },
-    {
-        id: 6,
-        slug: "mug-dal",
-        nameBn: "মুগ ডাল",
-        category: "dal",
-        categoryNameBn: "ডাল",
-        categoryIcon: "🫘",
-        unit: "kg",
-        image: "🫘",
-        today: 135,
-        yesterday: 135,
-        lastWeek: 130,
-        lastMonth: 128,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-    {
-        id: 7,
-        slug: "chola-dal",
-        nameBn: "ছোলা",
-        category: "dal",
-        categoryNameBn: "ডাল",
-        categoryIcon: "🫘",
-        unit: "kg",
-        image: "🫘",
-        today: 120,
-        yesterday: 123,
-        lastWeek: 122,
-        lastMonth: 118,
-        change: { dir: "down", pct: -2.4 },
-        markets: [],
-    },
-    {
-        id: 8,
-        slug: "aman-dal-khosasila",
-        nameBn: "আমন ডাল (খোসাসিলা)",
-        category: "dal",
-        categoryNameBn: "ডাল",
-        categoryIcon: "🫘",
-        unit: "kg",
-        image: "🫘",
-        today: 156,
-        yesterday: 152,
-        lastWeek: 148,
-        lastMonth: 145,
-        change: { dir: "up", pct: 2.6 },
-        markets: [],
-    },
-    {
-        id: 9,
-        slug: "sorishar-tel",
-        nameBn: "সরিষার তেল",
-        category: "tel",
-        categoryNameBn: "তেল",
-        categoryIcon: "🛢️",
-        unit: "litre",
-        image: "🫙",
-        today: 192,
-        yesterday: 188,
-        lastWeek: 184,
-        lastMonth: 180,
-        change: { dir: "up", pct: 2.1 },
-        markets: [],
-    },
-    {
-        id: 10,
-        slug: "pam-tel",
-        nameBn: "পাম তেল",
-        category: "tel",
-        categoryNameBn: "তেল",
-        categoryIcon: "🛢️",
-        unit: "kg",
-        image: "🛢️",
-        today: 168,
-        yesterday: 172,
-        lastWeek: 175,
-        lastMonth: 178,
-        change: { dir: "down", pct: -2.3 },
-        markets: [],
-    },
-    {
-        id: 11,
-        slug: "ghani-banga-sorishar-tel",
-        nameBn: "ঘানি ভাঙা সরিষার তেল",
-        category: "tel",
-        categoryNameBn: "তেল",
-        categoryIcon: "🛢️",
-        unit: "litre",
-        image: "🫙",
-        today: 215,
-        yesterday: 210,
-        lastWeek: 198,
-        lastMonth: 195,
-        change: { dir: "up", pct: 2.4 },
-        markets: [],
-    },
-    {
-        id: 12,
-        slug: "alu",
-        nameBn: "আলু",
-        category: "sobji",
-        categoryNameBn: "সবজি",
-        categoryIcon: "🥬",
-        unit: "kg",
-        image: "🥔",
-        today: 30,
-        yesterday: 32,
-        lastWeek: 34,
-        lastMonth: 36,
-        change: { dir: "down", pct: -6.2 },
-        markets: [],
-    },
-    {
-        id: 13,
-        slug: "peyaj",
-        nameBn: "পেঁয়াজ",
-        category: "sobji",
-        categoryNameBn: "সবজি",
-        categoryIcon: "🥬",
-        unit: "kg",
-        image: "🧅",
-        today: 54,
-        yesterday: 48,
-        lastWeek: 45,
-        lastMonth: 60,
-        change: { dir: "up", pct: 12.5 },
-        markets: [],
-    },
-    {
-        id: 14,
-        slug: "kaccha-moric",
-        nameBn: "কাঁচামরিচ",
-        category: "sobji",
-        categoryNameBn: "সবজি",
-        categoryIcon: "🥬",
-        unit: "kg",
-        image: "🌶️",
-        today: 92,
-        yesterday: 105,
-        lastWeek: 120,
-        lastMonth: 140,
-        change: { dir: "down", pct: -12.4 },
-        markets: [],
-    },
-    {
-        id: 15,
-        slug: "begun",
-        nameBn: "বেগুন",
-        category: "sobji",
-        categoryNameBn: "সবজি",
-        categoryIcon: "🥬",
-        unit: "kg",
-        image: "🍆",
-        today: 44,
-        yesterday: 42,
-        lastWeek: 40,
-        lastMonth: 45,
-        change: { dir: "up", pct: 4.8 },
-        markets: [],
-    },
-    {
-        id: 16,
-        slug: "dhenders",
-        nameBn: "ঢেঁড়স",
-        category: "sobji",
-        categoryNameBn: "সবজি",
-        categoryIcon: "🥬",
-        unit: "kg",
-        image: "🟢",
-        today: 38,
-        yesterday: 38,
-        lastWeek: 36,
-        lastMonth: 35,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-    {
-        id: 17,
-        slug: "rui-mach",
-        nameBn: "রুই মাছ",
-        category: "mach",
-        categoryNameBn: "মাছ",
-        categoryIcon: "🐟",
-        unit: "kg",
-        image: "🐟",
-        today: 46,
-        yesterday: 44,
-        lastWeek: 42,
-        lastMonth: 40,
-        change: { dir: "up", pct: 4.5 },
-        markets: [],
-    },
-    {
-        id: 18,
-        slug: "telapiya-mach",
-        nameBn: "তেলাপিয়া",
-        category: "mach",
-        categoryNameBn: "মাছ",
-        categoryIcon: "🐟",
-        unit: "kg",
-        image: "🐟",
-        today: 36,
-        yesterday: 36,
-        lastWeek: 35,
-        lastMonth: 34,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-    {
-        id: 19,
-        slug: "ilish-mach",
-        nameBn: "ইলিশ মাছ",
-        category: "mach",
-        categoryNameBn: "মাছ",
-        categoryIcon: "🐟",
-        unit: "kg",
-        image: "🐠",
-        today: 1850,
-        yesterday: 1790,
-        lastWeek: 1700,
-        lastMonth: 1650,
-        change: { dir: "up", pct: 3.4 },
-        markets: [],
-    },
-    {
-        id: 20,
-        slug: "katla-mach",
-        nameBn: "কাতলা মাছ",
-        category: "mach",
-        categoryNameBn: "মাছ",
-        categoryIcon: "🐟",
-        unit: "kg",
-        image: "🐠",
-        today: 43,
-        yesterday: 45,
-        lastWeek: 44,
-        lastMonth: 42,
-        change: { dir: "down", pct: -4.4 },
-        markets: [],
-    },
-    {
-        id: 21,
-        slug: "chingri-mach",
-        nameBn: "চিংড়ি মাছ (খোলা)",
-        category: "mach",
-        categoryNameBn: "মাছ",
-        categoryIcon: "🐟",
-        unit: "kg",
-        image: "🦐",
-        today: 330,
-        yesterday: 320,
-        lastWeek: 310,
-        lastMonth: 300,
-        change: { dir: "up", pct: 3.1 },
-        markets: [],
-    },
-    {
-        id: 22,
-        slug: "murgi-r-mangsho",
-        nameBn: "মুরগির মাংস",
-        category: "mangsho",
-        categoryNameBn: "মাংস",
-        categoryIcon: "🍗",
-        unit: "kg",
-        image: "🍗",
-        today: 225,
-        yesterday: 228,
-        lastWeek: 220,
-        lastMonth: 215,
-        change: { dir: "down", pct: -1.3 },
-        markets: [],
-    },
-    {
-        id: 23,
-        slug: "goru-r-mangsho",
-        nameBn: "গরুর মাংস",
-        category: "mangsho",
-        categoryNameBn: "মাংস",
-        categoryIcon: "🍗",
-        unit: "kg",
-        image: "🥩",
-        today: 790,
-        yesterday: 800,
-        lastWeek: 780,
-        lastMonth: 760,
-        change: { dir: "down", pct: -1.2 },
-        markets: [],
-    },
-    {
-        id: 24,
-        slug: "khasir-mangsho",
-        nameBn: "খাসির মাংস",
-        category: "mangsho",
-        categoryNameBn: "মাংস",
-        categoryIcon: "🍗",
-        unit: "kg",
-        image: "🍖",
-        today: 1290,
-        yesterday: 1330,
-        lastWeek: 1300,
-        lastMonth: 1280,
-        change: { dir: "down", pct: -3 },
-        markets: [],
-    },
-    {
-        id: 25,
-        slug: "hanser-mangsho",
-        nameBn: "হাঁসের মাংস",
-        category: "mangsho",
-        categoryNameBn: "মাংস",
-        categoryIcon: "🍗",
-        unit: "kg",
-        image: "🦆",
-        today: 285,
-        yesterday: 295,
-        lastWeek: 310,
-        lastMonth: 320,
-        change: { dir: "down", pct: -3.4 },
-        markets: [],
-    },
-    {
-        id: 26,
-        slug: "dim",
-        nameBn: "ডিম",
-        category: "dim-dui",
-        categoryNameBn: "ডিম-দুধ",
-        categoryIcon: "🥛",
-        unit: "dozen",
-        image: "🥚",
-        today: 158,
-        yesterday: 152,
-        lastWeek: 148,
-        lastMonth: 145,
-        change: { dir: "up", pct: 3.9 },
-        markets: [],
-    },
-    {
-        id: 27,
-        slug: "dui-dudh",
-        nameBn: "দুধ",
-        category: "dim-dui",
-        categoryNameBn: "ডিম-দুধ",
-        categoryIcon: "🥛",
-        unit: "litre",
-        image: "🥛",
-        today: 102,
-        yesterday: 100,
-        lastWeek: 98,
-        lastMonth: 96,
-        change: { dir: "up", pct: 2 },
-        markets: [],
-    },
-    {
-        id: 28,
-        slug: "doi",
-        nameBn: "দই",
-        category: "dim-dui",
-        categoryNameBn: "ডিম-দুধ",
-        categoryIcon: "🥛",
-        unit: "litre",
-        image: "🥣",
-        today: 92,
-        yesterday: 92,
-        lastWeek: 90,
-        lastMonth: 88,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-    {
-        id: 29,
-        slug: "mokhhan",
-        nameBn: "মাখন (১০০ গ্রাম)",
-        category: "dim-dui",
-        categoryNameBn: "ডিম-দুধ",
-        categoryIcon: "🥛",
-        unit: "piece",
-        image: "🧈",
-        today: 145,
-        yesterday: 140,
-        lastWeek: 138,
-        lastMonth: 135,
-        change: { dir: "up", pct: 3.6 },
-        markets: [],
-    },
-    {
-        id: 30,
-        slug: "ada",
-        nameBn: "আদা",
-        category: "mosla",
-        categoryNameBn: "মসলা",
-        categoryIcon: "🌶️",
-        unit: "kg",
-        image: "🫚",
-        today: 85,
-        yesterday: 78,
-        lastWeek: 72,
-        lastMonth: 70,
-        change: { dir: "up", pct: 9 },
-        markets: [],
-    },
-    {
-        id: 31,
-        slug: "roshun",
-        nameBn: "রসুন",
-        category: "mosla",
-        categoryNameBn: "মসলা",
-        categoryIcon: "🌶️",
-        unit: "kg",
-        image: "🧄",
-        today: 125,
-        yesterday: 135,
-        lastWeek: 140,
-        lastMonth: 150,
-        change: { dir: "down", pct: -7.4 },
-        markets: [],
-    },
-    {
-        id: 32,
-        slug: "morich-gunda",
-        nameBn: "মরিচ গুঁড়া",
-        category: "mosla",
-        categoryNameBn: "মসলা",
-        categoryIcon: "🌶️",
-        unit: "kg",
-        image: "🌶️",
-        today: 245,
-        yesterday: 250,
-        lastWeek: 240,
-        lastMonth: 235,
-        change: { dir: "down", pct: -2 },
-        markets: [],
-    },
-    {
-        id: 33,
-        slug: "dhanepata-gunda",
-        nameBn: "ধনেপাতা গুঁড়া",
-        category: "mosla",
-        categoryNameBn: "মসলা",
-        categoryIcon: "🌶️",
-        unit: "kg",
-        image: "🍃",
-        today: 265,
-        yesterday: 265,
-        lastWeek: 258,
-        lastMonth: 250,
-        change: { dir: "same", pct: 0 },
-        markets: [],
-    },
-];
+const getUnitInBangla = (unit: string) => {
+    const units: Record<string, string> = {
+        kg: "কেজি",
+        litre: "লিটার",
+        dozen: "ডজন",
+        piece: "টি",
+    };
+
+    return units[unit] || "";
+};
 
 export default function Marque() {
+    const [products, setProducts] = useState<IProduct[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/products`
+                );
+
+                if (!res.ok) {
+                    throw new Error("Failed to fetch products");
+                }
+
+                const data: IProduct[] = await res.json();
+
+                setProducts(data);
+            } catch (error) {
+                console.error("Marquee API Error:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    if (loading || products.length === 0) {
+        return null;
+    }
+
     return (
-        <div className="w-full h-9 bg-white text-slate-800 flex items-center overflow-hidden border-b border-gray-200">
+        <div className="flex h-9 w-full items-center overflow-hidden border-b border-gray-200 bg-white text-slate-800 sm:h-10">
+
             <Marquee
                 pauseOnHover={true}
-                speed={45}
+                speed={40}
                 gradient={false}
-                className="h-full flex items-center"
+                autoFill={true}
+                className="h-full"
             >
-                {LIVE_PRODUCTS.map((item) => (
+                {products.map((item) => (
                     <Link
                         key={item.id}
                         href={`/product/${item.slug}`}
-                        className="flex items-center gap-1.5 mx-3 whitespace-nowrap text-xs sm:text-sm hover:text-blue-600 transition-colors"
+                        className="mx-3 flex items-center gap-1.5 whitespace-nowrap text-xs transition-colors duration-200 hover:text-blue-600 sm:mx-4 sm:text-sm"
                     >
-                        <span className="text-sm">
+                        {/* Product Image */}
+                        <span className="text-sm sm:text-base">
                             {item.image}
                         </span>
 
+                        {/* Product Name */}
                         <span className="font-semibold text-gray-800">
                             {item.nameBn}
                         </span>
 
+                        {/* Product Price */}
                         <span className="font-medium text-gray-700">
-                            {item.today} টাকা/
-                            {item.unit === "kg"
-                                ? "কেজি"
-                                : item.unit === "litre"
-                                    ? "লিটার"
-                                    : item.unit === "dozen"
-                                        ? "ডজন"
-                                        : item.unit === "piece"
-                                            ? "টি"
-                                            : item.unit}
+                            {item.today.toLocaleString("bn-BD")} টাকা
+                            {getUnitInBangla(item.unit) && (
+                                <>/{getUnitInBangla(item.unit)}</>
+                            )}
                         </span>
 
+                        {/* Price Change */}
                         <span
-                            className={`font-bold text-xs ${item.change.dir === "up"
-                                ? "text-red-600"
-                                : item.change.dir === "down"
+                            className={`text-xs font-bold ${
+                                item.change.dir === "up"
+                                    ? "text-red-600"
+                                    : item.change.dir === "down"
                                     ? "text-emerald-600"
                                     : "text-gray-500"
-                                }`}
+                            }`}
                         >
                             {item.change.dir === "up"
                                 ? "▲"
                                 : item.change.dir === "down"
-                                    ? "▼"
-                                    : "—"}
+                                ? "▼"
+                                : "—"}
+
                             {" "}
-                            {Math.abs(item.change.pct)}%
+
+                            {Math.abs(item.change.pct).toLocaleString(
+                                "bn-BD",
+                                {
+                                    maximumFractionDigits: 2,
+                                }
+                            )}%
                         </span>
 
-                        <span className="text-gray-300 ml-2">
+                        {/* Separator */}
+                        <span className="ml-2 text-gray-300">
                             |
                         </span>
                     </Link>
