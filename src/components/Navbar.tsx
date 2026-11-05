@@ -6,7 +6,6 @@ import {
     Avatar,
     Button,
     Dropdown,
-    ProgressCircle,
     Separator,
 } from "@heroui/react";
 import Image from "next/image";
@@ -103,17 +102,12 @@ export default function Navbar() {
                     <div className="flex shrink-0 items-center gap-2">
 
                         {isPending ? (
-                            <ProgressCircle
+                            <div
+                                className="h-5 w-5 animate-spin rounded-full border-2 border-[#dcebdd] border-t-[#078b40]"
+                                role="status"
                                 aria-label="Loading"
-                                value={60}
-                                className="text-[#078b40]"
-                            >
-                                <ProgressCircle.Track>
-                                    <ProgressCircle.TrackCircle />
-                                    <ProgressCircle.FillCircle />
-                                </ProgressCircle.Track>
-                            </ProgressCircle>
-                        ) : data?.user.name ? (
+                            />
+                        ) : data?.user?.name ? (
                             <Dropdown>
                                 <Button
                                     variant="ghost"

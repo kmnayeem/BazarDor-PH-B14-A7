@@ -66,7 +66,7 @@ export default function Marque() {
 
             <Marquee
                 pauseOnHover={true}
-                speed={40}
+                speed={70}
                 gradient={false}
                 autoFill={true}
                 className="h-full"
