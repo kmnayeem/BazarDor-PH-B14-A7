@@ -1,6 +1,7 @@
 
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import {
     HiOutlineMail,
     HiOutlinePencilAlt,
@@ -18,7 +19,9 @@ const ProfilePage = async () => {
 
     const user = session?.user;
 
-    if (!user) return null;
+    if (!user) {
+        redirect("/signin");
+    }
 
     return (
         <main className="min-h-screen bg-[#f1f6f1] px-4 py-8 sm:py-12">

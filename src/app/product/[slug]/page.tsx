@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
     Home,
     ChevronRight,
@@ -9,12 +10,22 @@ import {
     Store,
 } from "lucide-react";
 import type { IProduct } from "@/types/type";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const ProductDetailsPage = async ({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) => {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    if (!session?.user) {
+        redirect("/signin");
+    }
+
     const { slug } = await params;
     let product: IProduct | null = null;
 
@@ -76,16 +87,16 @@ const ProductDetailsPage = async ({
                         : product.unit;
 
     const changeStyle =
-        product.change.dir === "up"
+        product.change?.dir === "up"
             ? "bg-rose-50 text-rose-700 ring-rose-200"
-            : product.change.dir === "down"
+            : product.change?.dir === "down"
                 ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
                 : "bg-slate-100 text-slate-600 ring-slate-200";
 
     const ChangeIcon =
-        product.change.dir === "up"
+        product.change?.dir === "up"
             ? TrendingUp
-            : product.change.dir === "down"
+            : product.change?.dir === "down"
                 ? TrendingDown
                 : Minus;
 
@@ -159,10 +170,10 @@ const ProductDetailsPage = async ({
                                 className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ring-1 ${changeStyle}`}
                             >
                                 <ChangeIcon size={14} />
-                                {formatPercentage(product.change.pct)}%
-                                {product.change.dir === "up"
+                                {formatPercentage(product.change?.pct ?? 0)}%
+                                {product.change?.dir === "up"
                                     ? " বৃদ্ধি"
-                                    : product.change.dir === "down"
+                                    : product.change?.dir === "down"
                                         ? " হ্রাস"
                                         : " অপরিবর্তিত"}
                             </span>

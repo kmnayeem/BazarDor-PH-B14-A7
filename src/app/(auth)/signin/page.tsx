@@ -13,11 +13,13 @@ import {
     TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 
 export default function SignInPage() {
+    const router = useRouter();
 
     const handleSubmit = async (
         e: React.SyntheticEvent<HTMLFormElement>
@@ -35,7 +37,12 @@ export default function SignInPage() {
 
         if (error) {
             toast.error(error.message as string);
+            return;
         }
+
+        toast.success("সাইন ইন সফল হয়েছে!");
+        router.push("/");
+        router.refresh();
     };
 
     const handleGoogleSignIn = async () => {

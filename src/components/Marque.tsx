@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 import type { IProduct } from "@/types/type";
 
 const getUnitInBangla = (unit: string) => {
@@ -17,8 +20,18 @@ const getUnitInBangla = (unit: string) => {
 };
 
 export default function Marque() {
+    const { data: session } = useSession();
+    const router = useRouter();
     const [products, setProducts] = useState<IProduct[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const handleProductClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!session?.user) {
+            e.preventDefault();
+            toast.error("পণ্যের বিস্তারিত তথ্য দেখতে অনুগ্রহ করে সাইন ইন করুন");
+            router.push("/signin");
+        }
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -61,7 +74,8 @@ export default function Marque() {
                 {products.map((item) => (
                     <Link
                         key={item.id}
-                        href={`/product/${item.slug}`}
+                        href={`/product/${item.id}`}
+                        onClick={handleProductClick}
                         className="mx-3 flex items-center gap-1.5 whitespace-nowrap text-xs transition-colors duration-200 hover:text-blue-600 sm:mx-4 sm:text-sm"
                     >
                         {/* Product Image */}

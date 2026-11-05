@@ -43,7 +43,8 @@ const Hero = () => {
                         src={HeroLogo}
                         alt="বাজারের পণ্যের ঝুড়ি"
                         priority
-                        className="relative h-[140px] w-[180px] object-contain drop-shadow-md transition-transform duration-300 hover:scale-105 sm:h-[220px] sm:w-[250px] lg:h-[245px] lg:w-[280px]"
+                        onClick={(e) => e.stopPropagation()}
+                        className="relative h-[140px] w-[180px] object-contain drop-shadow-md transition-transform duration-300 sm:h-[220px] sm:w-[250px] lg:h-[245px] lg:w-[280px]"
                         sizes="(min-width: 1024px) 280px, (min-width: 640px) 250px, 180px"
                     />
                 </div>

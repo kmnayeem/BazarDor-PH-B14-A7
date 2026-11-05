@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useEffect } from "react";
 import { updateUser, useSession } from "@/lib/auth-client";
 import {
     Button,
@@ -19,6 +20,12 @@ const UpdateProfilePage = () => {
     const { data: session, isPending } = useSession();
     const router = useRouter();
 
+    useEffect(() => {
+        if (!isPending && !session?.user) {
+            router.push("/signin");
+        }
+    }, [isPending, session, router]);
+
     const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -29,9 +36,15 @@ const UpdateProfilePage = () => {
             name: data.name as string,
         });
 
-        if (resData?.status === true) {
-            toast.success("Profile Updated");
+        if (error) {
+            toast.error(error.message || "প্রোফাইল আপডেট করা যায়নি");
+            return;
+        }
+
+        if (resData?.status === true || !error) {
+            toast.success("প্রোফাইল আপডেট হয়েছে");
             router.push("/profile");
+            router.refresh();
         }
     };
 

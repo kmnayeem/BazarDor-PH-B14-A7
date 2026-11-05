@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { useSession } from "@/lib/auth-client";
 import type { IProduct } from "@/types/type";
 
 interface ProductCardProps {
@@ -8,6 +11,17 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ item }: ProductCardProps) => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleProductClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!session?.user) {
+      e.preventDefault();
+      toast.error("পণ্যের বিস্তারিত তথ্য দেখতে অনুগ্রহ করে সাইন ইন করুন");
+      router.push("/signin");
+    }
+  };
+
   const getUnitInBangla = (unit: string) => {
     const units: Record<string, string> = {
       kg: "কেজি",
@@ -26,6 +40,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
   return (
     <Link
       href={`/product/${item.id}`}
+      onClick={handleProductClick}
       className="group block h-full rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
       prefetch
     >

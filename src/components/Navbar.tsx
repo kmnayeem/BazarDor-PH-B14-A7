@@ -12,10 +12,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "@/lib/auth-client";
 import { ICategory } from "@/types/type";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import logo from "@/assets/logo-icon.png";
 
 export default function Navbar() {
+    const router = useRouter();
     const pathname = usePathname();
     const [categories, setCategories] = useState<ICategory[]>([]);
 
@@ -50,7 +52,23 @@ export default function Navbar() {
     const { data, isPending } = useSession();
 
     const handleSignOut = async () => {
-        await signOut();
+        await signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success("সাইন আউট সফল হয়েছে");
+                    router.push("/");
+                    router.refresh();
+                },
+            },
+        });
+    };
+
+    const handleCategoryClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (!data?.user) {
+            e.preventDefault();
+            toast.error("ক্যাটাগরির পণ্য দেখতে অনুগ্রহ করে সাইন ইন করুন");
+            router.push("/signin");
+        }
     };
 
     return (
@@ -196,6 +214,7 @@ export default function Navbar() {
                             <Link
                                 key={cat.id}
                                 href={`/category/${cat.slug}`}
+                                onClick={handleCategoryClick}
                                 className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs whitespace-nowrap transition-all duration-200 sm:text-sm ${
                                     isActive
                                         ? "bg-emerald-600 font-semibold text-white shadow-sm shadow-emerald-600/20"
