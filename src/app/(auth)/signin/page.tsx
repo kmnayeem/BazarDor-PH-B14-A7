@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Button,
     Card,
@@ -13,38 +13,63 @@ import {
     TextField,
 } from "@heroui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 
 export default function SignInPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
 
+    // Handle authentication required message
+    useEffect(() => {
+        if (searchParams.get("error") === "auth_required") {
+            toast.error(
+                "বিস্তারিত তথ্য দেখতে অনুগ্রহ করে সাইন ইন করুন",
+                {
+                    id: "auth-required",
+                    duration: 1500,
+                }
+            );
+
+            router.replace("/signin");
+        }
+    }, [searchParams, router]);
+
+    // Email Sign In
     const handleSubmit = async (
         e: React.SyntheticEvent<HTMLFormElement>
     ) => {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData);
+
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
 
         const { error } = await signIn.email({
-            email: data.email as string,
-            password: data.password as string,
+            email,
+            password,
             callbackURL: "/",
         });
 
         if (error) {
-            toast.error(error.message as string);
+            toast.error(error.message as string, {
+                id: "signin-error",
+            });
             return;
         }
 
-        toast.success("সাইন ইন সফল হয়েছে!");
+        toast.success("সাইন ইন সফল হয়েছে!", {
+            id: "signin-success",
+        });
+
         router.push("/");
         router.refresh();
     };
 
+    // Google Sign In
     const handleGoogleSignIn = async () => {
         const { error } = await signIn.social({
             provider: "google",
@@ -52,7 +77,9 @@ export default function SignInPage() {
         });
 
         if (error) {
-            toast.error(error.message as string);
+            toast.error(error.message as string, {
+                id: "google-signin-error",
+            });
         }
     };
 
@@ -148,7 +175,6 @@ export default function SignInPage() {
                         variant="outline"
                         className="w-full h-11 flex items-center justify-center gap-2 rounded-xl border border-[#dfe7df] bg-white hover:bg-[#edf7ef] hover:border-[#9bc9a5] text-[#354139] font-semibold text-sm shadow-none transition-all duration-200"
                     >
-                        {/* Google Icon */}
                         <svg
                             className="w-4 h-4 shrink-0"
                             viewBox="0 0 24 24"

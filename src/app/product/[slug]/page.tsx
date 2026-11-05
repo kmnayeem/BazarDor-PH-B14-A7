@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import {
     Home,
     ChevronRight,
@@ -10,22 +9,12 @@ import {
     Store,
 } from "lucide-react";
 import type { IProduct } from "@/types/type";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
 
 const ProductDetailsPage = async ({
     params,
 }: {
     params: Promise<{ slug: string }>;
 }) => {
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
-    if (!session?.user) {
-        redirect("/signin");
-    }
-
     const { slug } = await params;
     let product: IProduct | null = null;
 

@@ -46,9 +46,6 @@ const CategoryDetailsPage = async ({
               {category.nameBn}
             </h1>
 
-            {/* <p className="text-[11px] text-gray-500 mt-0.5">
-              {products.length.toLocaleString("bn-BD")}টি পণ্যের আজকের বাজার দর ও পরিবর্তন
-            </p> */}
           </div>
 
         </div>
