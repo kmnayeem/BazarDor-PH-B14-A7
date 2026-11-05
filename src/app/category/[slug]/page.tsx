@@ -4,66 +4,76 @@ import { notFound } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
 
 const CategoryDetailsPage = async ({
-    params,
+  params,
 }: {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 }) => {
-    const { slug } = await params;
+  const { slug } = await params;
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-    if (!baseUrl) {
-        throw new Error("API URL is not configured");
-    }
+  if (!baseUrl) {
+    throw new Error("API URL is not configured");
+  }
 
+  let products: IProduct[] = [];
+  let category: ICategory;
+
+  try {
     const [productsRes, categoryRes] = await Promise.all([
-        fetch(
-            `${baseUrl}/products?category=${encodeURIComponent(slug)}`,
-            { cache: "no-store" }
-        ),
-        fetch(
-            `${baseUrl}/categories/${encodeURIComponent(slug)}`,
-            { cache: "no-store" }
-        ),
+      fetch(
+        `${baseUrl}/products?category=${encodeURIComponent(slug)}`,
+        { cache: "no-store" }
+      ),
+      fetch(
+        `${baseUrl}/categories/${encodeURIComponent(slug)}`,
+        { cache: "no-store" }
+      ),
     ]);
 
     if (!categoryRes.ok) {
-        notFound();
+      notFound();
     }
 
     if (!productsRes.ok) {
-        throw new Error("Failed to fetch category products");
+      throw new Error("Failed to fetch category products");
     }
 
-    const products: IProduct[] = await productsRes.json();
-    const category: ICategory = await categoryRes.json();
+    products = await productsRes.json();
+    category = await categoryRes.json();
 
-    return (
-        <main className="min-h-screen w-full bg-[#f0f5f1] py-5 sm:py-8">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-4">
+  } catch (error) {
+    console.error("Category fetch error:", error);
+    throw error;
+  }
 
-                <div className="bg-[#fbfdfb] rounded-xl border border-[#e2eae3] px-4 py-3 flex items-center gap-3">
+  return (
+    <main className="min-h-screen w-full bg-[#f0f5f1] py-5 sm:py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-4">
 
-                    <div className="w-10 h-10 rounded-xl bg-[#f1f7f2] flex items-center justify-center text-2xl shrink-0">
-                        {category.icon}
-                    </div>
+        <div className="bg-[#fbfdfb] rounded-xl border border-[#e2eae3] px-4 py-3 flex items-center gap-3">
 
-                    <div className="min-w-0">
-                        <h1 className="text-base sm:text-lg font-bold text-[#26332b]">
-                            {category.nameBn}
-                        </h1>
+          <div className="w-10 h-10 rounded-xl bg-[#f1f7f2] flex items-center justify-center text-2xl shrink-0">
+            {category.icon}
+          </div>
 
-                        {/* <p className="text-[11px] text-gray-500 mt-0.5">
-                            {products.length.toLocaleString("bn-BD")}টি পণ্যের আজকের বাজার দর ও পরিবর্তন
-                        </p> */}
-                    </div>
-                </div>
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg font-bold text-[#26332b]">
+              {category.nameBn}
+            </h1>
 
-                <CategoryProducts products={products} />
+            <p className="text-[11px] text-gray-500 mt-0.5">
+              {products.length.toLocaleString("bn-BD")}টি পণ্যের আজকের বাজার দর ও পরিবর্তন
+            </p>
+          </div>
 
-            </div>
-        </main>
-    );
+        </div>
+
+        <CategoryProducts products={products} />
+
+      </div>
+    </main>
+  );
 };
 
 export default CategoryDetailsPage;
