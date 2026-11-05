@@ -1,66 +1,35 @@
-
-import { ICategory, IProduct } from "@/types/type";
-import { notFound, redirect } from "next/navigation";
 import CategoryProducts from "@/components/CategoryProducts";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { ICategory, IProduct } from "@/types/type";
+import { notFound } from "next/navigation";
 
 const CategoryDetailsPage = async ({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session?.user) {
-    redirect("/signin");
-  }
-
   const { slug } = await params;
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/products?category=${encodeURIComponent(slug)}`,
+    { cache: "no-store" }
+  );
 
-  if (!baseUrl) {
-    throw new Error("API URL is not configured");
-  }
-
-  let products: IProduct[] = [];
-  let category: ICategory;
-
-  let productsRes: Response;
-  let categoryRes: Response;
-
-  try {
-    const results = await Promise.all([
-      fetch(
-        `${baseUrl}/products?category=${encodeURIComponent(slug)}`,
-        { cache: "no-store" }
-      ),
-      fetch(
-        `${baseUrl}/categories/${encodeURIComponent(slug)}`,
-        { cache: "no-store" }
-      ),
-    ]);
-
-    productsRes = results[0];
-    categoryRes = results[1];
-  } catch (error) {
-    console.error("Category fetch error:", error);
-    throw error;
-  }
-
-  if (!categoryRes.ok) {
-    notFound();
-  }
-
-  if (!productsRes.ok) {
+  if (!res.ok) {
     throw new Error("Failed to fetch category products");
   }
 
-  products = await productsRes.json();
-  category = await categoryRes.json();
+  const products: IProduct[] = await res.json();
+
+  const resCat = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/categories/${encodeURIComponent(slug)}`,
+    { cache: "no-store" }
+  );
+
+  if (!resCat.ok) {
+    notFound();
+  }
+
+  const category: ICategory = await resCat.json();
 
   return (
     <main className="min-h-screen w-full bg-[#f0f5f1] py-5 sm:py-8">
@@ -77,9 +46,9 @@ const CategoryDetailsPage = async ({
               {category.nameBn}
             </h1>
 
-            <p className="text-[11px] text-gray-500 mt-0.5">
+            {/* <p className="text-[11px] text-gray-500 mt-0.5">
               {products.length.toLocaleString("bn-BD")}টি পণ্যের আজকের বাজার দর ও পরিবর্তন
-            </p>
+            </p> */}
           </div>
 
         </div>

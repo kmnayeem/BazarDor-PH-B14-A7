@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -63,25 +64,20 @@ export default function Navbar() {
         });
     };
 
-    const handleCategoryClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        if (!data?.user) {
-            e.preventDefault();
-            toast.error("ক্যাটাগরির পণ্য দেখতে অনুগ্রহ করে সাইন ইন করুন");
-            router.push("/signin");
-        }
-    };
-
     return (
-        <header className="sticky top-0 z-50 w-full border-b border-emerald-100/80 bg-white/95 shadow-sm shadow-slate-900/[0.03] backdrop-blur-md">
+        <header className="sticky top-0 z-50 w-full border-b border-[#dceadd] bg-[#fbfdfb]/95 shadow-[0_4px_20px_rgba(30,70,40,0.05)] backdrop-blur-xl">
+
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
                 {/* Top Navbar */}
                 <div className="flex min-h-[72px] items-center justify-between gap-4">
+
                     {/* Logo & Date */}
                     <Link
                         href="/"
                         className="group flex min-w-0 items-center gap-3"
                     >
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-emerald-100 bg-emerald-50 shadow-sm transition-transform duration-200 group-hover:scale-105">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#dcebdd] bg-[#edf7ee] shadow-sm">
                             <Image
                                 src={logo}
                                 alt="Bazar Dor Logo"
@@ -93,10 +89,11 @@ export default function Navbar() {
                         </div>
 
                         <div className="flex min-w-0 flex-col">
-                            <span className="text-lg font-extrabold leading-tight tracking-tight text-slate-900 sm:text-xl">
+                            <span className="text-lg font-extrabold leading-tight tracking-tight text-[#1e2922] sm:text-xl">
                                 বাজার দর
                             </span>
-                            <span className="mt-0.5 truncate text-[10px] font-medium text-slate-500 sm:text-xs">
+
+                            <span className="mt-0.5 truncate text-[10px] font-medium text-[#849187] sm:text-xs">
                                 {formattedDate}
                             </span>
                         </div>
@@ -104,11 +101,12 @@ export default function Navbar() {
 
                     {/* Right Side: Authentication */}
                     <div className="flex shrink-0 items-center gap-2">
+
                         {isPending ? (
                             <ProgressCircle
                                 aria-label="Loading"
                                 value={60}
-                                className="text-emerald-600"
+                                className="text-[#078b40]"
                             >
                                 <ProgressCircle.Track>
                                     <ProgressCircle.TrackCircle />
@@ -119,9 +117,9 @@ export default function Navbar() {
                             <Dropdown>
                                 <Button
                                     variant="ghost"
-                                    className="flex h-10 items-center gap-2 rounded-xl border border-transparent px-2 transition-colors hover:border-slate-200 hover:bg-slate-50"
+                                    className="flex h-10 items-center gap-2 rounded-xl border border-[#e4ece4] bg-white/70 px-2.5 shadow-sm transition-all duration-200 hover:border-[#b8d8bd] hover:bg-[#edf7ef] hover:shadow-md"
                                 >
-                                    <Avatar className="h-8 w-8 ring-2 ring-emerald-100">
+                                    <Avatar className="h-8 w-8 ring-2 ring-[#dceedd]">
                                         {data.user.image && (
                                             <Avatar.Image
                                                 alt={data.user.name}
@@ -129,16 +127,16 @@ export default function Navbar() {
                                             />
                                         )}
 
-                                        <Avatar.Fallback className="bg-emerald-100 font-semibold text-emerald-800">
+                                        <Avatar.Fallback className="bg-[#e3f2e5] font-semibold text-[#087b39]">
                                             {data.user.name.charAt(0).toUpperCase()}
                                         </Avatar.Fallback>
                                     </Avatar>
 
-                                    <span className="hidden max-w-32 truncate text-xs font-semibold text-slate-700 sm:block">
+                                    <span className="hidden max-w-32 truncate text-xs font-semibold text-[#344139] sm:block">
                                         {data.user.name}
                                     </span>
 
-                                    <span className="text-[10px] text-slate-400">
+                                    <span className="text-[10px] text-[#849187]">
                                         ▼
                                     </span>
                                 </Button>
@@ -170,7 +168,7 @@ export default function Navbar() {
                                         <Dropdown.Item id="sign-out">
                                             <Button
                                                 onClick={handleSignOut}
-                                                className="h-9 w-full rounded-lg bg-emerald-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                                                className="h-9 w-full rounded-xl bg-[#078b40] px-4 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#056d32] hover:shadow-md"
                                             >
                                                 সাইন আউট
                                             </Button>
@@ -180,25 +178,31 @@ export default function Navbar() {
                             </Dropdown>
                         ) : (
                             <div className="flex items-center gap-1.5 sm:gap-2">
+
                                 <Button
                                     variant="ghost"
-                                    className="h-9 rounded-xl px-3 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+                                    className="h-9 rounded-xl border border-transparent px-3 text-xs font-semibold text-[#344139] transition-all duration-200 hover:border-[#dcebdd] hover:bg-[#edf7ef] hover:text-[#078b40]"
                                 >
-                                    <Link href="/signin">সাইন ইন</Link>
+                                    <Link href="/signin">
+                                        সাইন ইন
+                                    </Link>
                                 </Button>
 
                                 <Button
                                     variant="primary"
-                                    className="h-9 rounded-xl bg-emerald-600 px-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700 sm:px-4"
+                                    className="h-9 rounded-xl bg-gradient-to-r from-[#078b40] to-[#0a9b4b] px-3 text-xs font-semibold text-white shadow-[0_3px_8px_rgba(7,139,64,0.18)] transition-all duration-200 hover:from-[#056d32] hover:to-[#078b40] hover:shadow-[0_5px_12px_rgba(7,139,64,0.25)] sm:px-4"
                                 >
-                                    <Link href="/signup">সাইন আপ</Link>
+                                    <Link href="/signup">
+                                        সাইন আপ
+                                    </Link>
                                 </Button>
+
                             </div>
                         )}
                     </div>
                 </div>
 
-                <Separator className="bg-slate-100" />
+                <Separator className="bg-[#e8eee8]" />
 
                 {/* Category Navigation */}
                 <nav
@@ -214,17 +218,19 @@ export default function Navbar() {
                             <Link
                                 key={cat.id}
                                 href={`/category/${cat.slug}`}
-                                onClick={handleCategoryClick}
-                                className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs whitespace-nowrap transition-all duration-200 sm:text-sm ${
+                                className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs whitespace-nowrap transition-all duration-200 sm:text-sm ${
                                     isActive
-                                        ? "bg-emerald-600 font-semibold text-white shadow-sm shadow-emerald-600/20"
-                                        : "font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700"
+                                        ? "border-[#078b40] bg-gradient-to-r from-[#078b40] to-[#0a9b4b] font-semibold text-white shadow-[0_3px_8px_rgba(7,139,64,0.18)]"
+                                        : "border-transparent bg-transparent font-medium text-[#59675c] hover:border-[#dcebdd] hover:bg-[#edf7ef] hover:text-[#078b40]"
                                 }`}
                             >
                                 <span className="text-base leading-none">
                                     {cat.icon}
                                 </span>
-                                <span>{cat.nameBn}</span>
+
+                                <span>
+                                    {cat.nameBn}
+                                </span>
                             </Link>
                         );
                     })}

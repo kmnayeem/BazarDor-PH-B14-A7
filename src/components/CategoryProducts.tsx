@@ -32,7 +32,7 @@ const CategoryProducts = ({
                     <span className="font-bold text-[#26332b]">
                         {products.length.toLocaleString("bn-BD")}টি
                     </span>{" "}
-                    পণ্যের তালিকা
+                    পণ্যের আজকের বাজার দর ও পরিবর্তন
                 </p>
 
                 <div className="flex items-center gap-2 self-end sm:self-auto">

@@ -60,8 +60,8 @@ export default function SignInPage() {
         <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#f0f5f0] px-4 py-8">
 
             {/* Header */}
-            <div className="flex flex-col items-center text-center mb-5">
-                <h1 className="text-2xl font-bold text-[#1e2922] mb-1">
+            <div className="flex flex-col items-center text-center mb-6">
+                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1e2922] mb-2">
                     সাইন ইন
                 </h1>
 
@@ -71,14 +71,14 @@ export default function SignInPage() {
             </div>
 
             {/* Login Card */}
-            <Card className="w-full max-w-[360px] p-5 sm:p-6 rounded-2xl border border-[#dfe8df] bg-[#fbfdfb] shadow-none">
+            <Card className="w-full max-w-[390px] p-6 sm:p-8 rounded-[24px] border border-[#dce8dd] bg-[#fbfdfb] shadow-[0_12px_40px_rgba(30,70,40,0.07)]">
 
-                <Card.Content className="flex flex-col gap-4 p-0">
+                <Card.Content className="flex flex-col gap-5 p-0">
 
                     {/* Login Form */}
                     <Form
                         onSubmit={handleSubmit}
-                        className="flex flex-col gap-3.5 w-full"
+                        className="flex flex-col gap-4 w-full"
                     >
 
                         {/* Email */}
@@ -86,15 +86,15 @@ export default function SignInPage() {
                             name="email"
                             type="email"
                             isRequired
-                            className="flex flex-col gap-1.5 w-full"
+                            className="flex flex-col gap-2 w-full"
                         >
-                            <Label className="text-xs font-medium text-[#344139]">
+                            <Label className="text-[13px] font-semibold text-[#344139]">
                                 ইমেইল
                             </Label>
 
                             <Input
                                 placeholder="you@example.com"
-                                className="w-full h-9 px-3 rounded-lg bg-transparent border border-[#dfe7df] text-xs text-[#27352b] placeholder:text-[#a0aaa2] hover:border-[#b8c9ba] focus:border-[#078b40] focus:outline-none transition-colors"
+                                className="w-full h-11 px-4 rounded-xl bg-white border border-[#dfe7df] text-sm text-[#27352b] placeholder:text-[#a0aaa2] hover:border-[#86b99a] hover:bg-[#f7fbf7] focus:border-[#078b40] focus:ring-2 focus:ring-[#078b40]/10 focus:outline-none transition-all"
                             />
 
                             <FieldError className="text-xs text-red-500" />
@@ -105,15 +105,15 @@ export default function SignInPage() {
                             name="password"
                             type="password"
                             isRequired
-                            className="flex flex-col gap-1.5 w-full"
+                            className="flex flex-col gap-2 w-full"
                         >
-                            <Label className="text-xs font-medium text-[#344139]">
+                            <Label className="text-[13px] font-semibold text-[#344139]">
                                 পাসওয়ার্ড
                             </Label>
 
                             <Input
                                 placeholder="কমপক্ষে ৮ অক্ষর"
-                                className="w-full h-9 px-3 rounded-lg bg-transparent border border-[#dfe7df] text-xs text-[#27352b] placeholder:text-[#a0aaa2] hover:border-[#b8c9ba] focus:border-[#078b40] focus:outline-none transition-colors"
+                                className="w-full h-11 px-4 rounded-xl bg-white border border-[#dfe7df] text-sm text-[#27352b] placeholder:text-[#a0aaa2] hover:border-[#86b99a] hover:bg-[#f7fbf7] focus:border-[#078b40] focus:ring-2 focus:ring-[#078b40]/10 focus:outline-none transition-all"
                             />
 
                             <FieldError className="text-xs text-red-500" />
@@ -123,7 +123,7 @@ export default function SignInPage() {
                         <Button
                             type="submit"
                             variant="primary"
-                            className="w-full h-9 mt-0.5 rounded-lg bg-[#078b40] hover:bg-[#067735] text-white font-semibold text-xs shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-colors"
+                            className="w-full h-11 mt-1 rounded-xl bg-gradient-to-r from-[#078b40] to-[#0a9b4b] hover:from-[#056d32] hover:to-[#078b40] text-white font-bold text-sm shadow-[0_4px_12px_rgba(7,139,64,0.20)] hover:shadow-[0_6px_16px_rgba(7,139,64,0.25)] transition-all duration-200"
                         >
                             সাইন ইন
                         </Button>
@@ -134,7 +134,7 @@ export default function SignInPage() {
                     <div className="w-full flex items-center gap-3">
                         <Separator className="flex-1 bg-[#e0e7e0]" />
 
-                        <span className="text-xs text-[#89928a]">
+                        <span className="text-xs font-medium text-[#89928a]">
                             অথবা
                         </span>
 
@@ -146,11 +146,11 @@ export default function SignInPage() {
                         type="button"
                         onClick={handleGoogleSignIn}
                         variant="outline"
-                        className="w-full h-9 flex items-center justify-center gap-2 rounded-lg border border-[#dfe7df] bg-transparent hover:bg-[#f2f7f2] text-[#354139] font-semibold text-xs shadow-none transition-colors"
+                        className="w-full h-11 flex items-center justify-center gap-2 rounded-xl border border-[#dfe7df] bg-white hover:bg-[#edf7ef] hover:border-[#9bc9a5] text-[#354139] font-semibold text-sm shadow-none transition-all duration-200"
                     >
                         {/* Google Icon */}
                         <svg
-                            className="w-3.5 h-3.5 shrink-0"
+                            className="w-4 h-4 shrink-0"
                             viewBox="0 0 24 24"
                         >
                             <path
@@ -175,12 +175,12 @@ export default function SignInPage() {
                     </Button>
 
                     {/* Signup */}
-                    <div className="text-center pt-0.5">
-                        <p className="text-xs text-[#58645a]">
+                    <div className="text-center pt-1">
+                        <p className="text-xs sm:text-sm text-[#58645a]">
                             অ্যাকাউন্ট নেই?{" "}
                             <Link
                                 href="/signup"
-                                className="text-[#078b40] font-semibold hover:underline"
+                                className="text-[#078b40] font-bold hover:text-[#056d32] hover:underline underline-offset-4 transition-colors"
                             >
                                 সাইন আপ করুন
                             </Link>
@@ -193,9 +193,9 @@ export default function SignInPage() {
             {/* Back to Home */}
             <Link
                 href="/"
-                className="flex items-center gap-1.5 mt-5 text-xs text-[#89948b] hover:text-[#344139] transition-colors"
+                className="flex items-center gap-1.5 mt-6 text-xs font-medium text-[#89948b] hover:text-[#078b40] transition-colors"
             >
-                <ArrowLeft size={13} />
+                <ArrowLeft size={14} />
                 <span>হোম পেজে ফিরে যান</span>
             </Link>
 
